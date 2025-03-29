@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: kafka-streams-example
+  cloud:
+    stream:
+      function:
+        definition: process
+      kafka:
+        streams:
+          binder:
+            applicationId: kafka-streams-example
+            brokers: localhost:9092
+            configuration:
+              default.key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+              default.value.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+              commit.interval.ms: 5000 # setting this to 1000 broke the last window.. lolz
+      bindings:
+        process-in-0:
+          destination: jxhui-in
+          content-type: application/json
+        process-out-0:
+          destination: jxhui-out
+          content-type: application/json
+
+server:
+  port: 8081
+
+logging:
+  level:
+    org.springframework.cloud.stream: DEBUG
+    org.apache.kafka: INFO
